@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rangoli Burst</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .rangoli {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .rangoli div {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      opacity: 0;
+      animation: explode 1.5s forwards;
+    }
+
+    @keyframes explode {
+      0% {
+        opacity: 1;
+        transform: scale(0) translate(0, 0);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1) translate(var(--x), var(--y));
+      }
+    }
+
+    .message {
+      display: none;
+      font-size: 24px;
+      color: #28a745;
+      margin-top: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <button id="rangoliBtn">Brust Rangoli</button>
+    <div class="rangoli"></div>
+    <div class="message">Thank you for bursting!</div>
+  </div>
+
+  <script>
+    document.getElementById('rangoliBtn').addEventListener('click', createRangoli);
+
+    function createRangoli() {
+      const rangoliContainer = document.querySelector('.rangoli');
+      rangoliContainer.innerHTML = '';  // Clear any previous Rangoli
+
+      const colors = [
+        '#FF6347', '#FFD700', '#32CD32', '#1E90FF', '#8A2BE2', '#FF69B4', 
+        '#FF4500', '#00FA9A', '#9932CC', '#FF1493', '#FFD700', '#00BFFF', 
+        '#8A2BE2', '#C71585', '#DC143C', '#ADFF2F', '#20B2AA', '#7FFF00',
+        '#FF8C00', '#F0E68C', '#D2691E', '#800080', '#FF00FF', '#FF00FF', 
+        '#00FFFF', '#48D1CC', '#A52A2A', '#FFFF00', '#DAA520', '#8B0000'
+      ];
+
+      const numParticles = 60;  // Increased number of particles for more burst effect
+
+      // Create a random burst effect
+      for (let i = 0; i < numParticles; i++) {
+        const rangoliDiv = document.createElement('div');
+        const color = colors[Math.floor(Math.random() * colors.length)];  // Random color
+        const angle = Math.random() * 2 * Math.PI;  // Random angle
+        const distance = Math.random() * 150 + 50; // Random distance from center
+
+        rangoliDiv.style.backgroundColor = color;  // Apply random color
+        rangoliDiv.style.left = `${150 - rangoliDiv.offsetWidth / 2}px`;
+        rangoliDiv.style.top = `${150 - rangoliDiv.offsetHeight / 2}px`;
+        rangoliDiv.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
+        rangoliDiv.style.setProperty('--y', `${Math.sin(angle) * distance}px`);
+
+        rangoliContainer.appendChild(rangoliDiv);
+      }
+
+      // Show the thank you message after the burst
+      setTimeout(() => {
+        document.querySelector('.message').style.display = 'block';
+      }, 2000); // Delay to allow the burst animation to complete (adjust as needed)
+    }
+
+  </script>
+
+</body>
+</html>
